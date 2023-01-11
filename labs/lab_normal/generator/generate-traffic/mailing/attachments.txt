@@ -1,0 +1,6 @@
+/generate-traffic/mailing/mailing.py
+/generate-traffic/mailing/mail.ini
+/generate-traffic/mailing/bbrowsing.txt
+/generate-traffic/mailing/pbrowsing.txt
+/generate-traffic/mailing/privateSearch.txt
+/generate-traffic/mailing/businessSearch.txt

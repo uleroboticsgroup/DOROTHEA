@@ -1,0 +1,1 @@
+*/2 * * * * root /generate-traffic/start_generate_traffic.sh 2> /dev/null

@@ -1,0 +1,147 @@
+##
+##
+## Copyright (c) 2020 Adrian Campazas Vega, Ignacio Samuel Crespo Martinez, Angel Manuel Guerrero Higueras.
+##
+## This file is part of DOROTHEA 
+##
+## DOROTHEA is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Lesser General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## DOROTHEA is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
+##
+version: "2.2"
+
+services:
+  rabbit:
+      hostname: rabbit
+      image: rabbitmq:latest
+      environment:
+          - RABBITMQ_DEFAULT_USER=admin
+          - RABBITMQ_DEFAULT_PASS=mypass
+      networks:
+        - attacknet
+      ports:
+          - "5672:5672"
+      depends_on:
+        - router
+
+  attacker:
+      image: lab/attacker
+      build: ./attacker     
+      networks:
+        - attacknet
+      volumes:
+          - ./attacks:/attacks/
+      links:
+          - rabbit
+      depends_on:
+          - rabbit
+          - router
+          - slave
+      privileged: true
+      tty: true
+
+  launcher:
+      image: lab/launcher
+      build: ./launcher
+      container_name: launcher  
+      networks:
+        attacknet:
+          ipv4_address: 152.148.48.254
+      volumes:
+          - ./attacks:/attacks/
+      links:
+          - rabbit
+      depends_on:
+          - rabbit
+          - router
+          - attacker
+          - netflow_generator
+      privileged: true
+      tty: true
+
+  
+  netflow_warehouse:
+    image: lab/netflow_warehouse
+    build: ./netflow_warehouse
+    container_name: netflow_warehouse
+    volumes:
+      -  ./results/Netflow_flows:/home/netflow_flows
+    networks:
+      internalnet:
+        ipv4_address: 140.30.20.4
+    depends_on:
+      - router
+    privileged: true
+    tty: true
+  
+
+
+  router:
+    container_name: router
+    build: ./router
+    image: lab/router
+    volumes:
+      -  ./results/Network_traffic:/home/total-traffic/
+      -  ./results/CICFlows:/home/total-cic/
+    networks:
+      attacknet:
+        ipv4_address: 152.148.48.2
+      internalnet:
+        ipv4_address: 140.30.20.2
+    privileged: true
+    tty: true
+
+  netflow_generator:
+    container_name: netflow_generator
+    image: lab/netflow_generator
+    build:
+       context: .
+       dockerfile: ./netflow_generator/Dockerfile
+       args:
+          - SYSTEM=${SYSTEM}
+    volumes:
+      -  ./results/NetflowMachineResults:/home/total-traffic/
+    networks:
+      internalnet:
+        ipv4_address: 140.30.20.3
+    privileged: true
+    tty: true
+
+
+  slave:
+    build: ./slave
+    image: lab/slave
+    depends_on:
+      - router
+      - netflow_warehouse
+    networks:
+      - internalnet
+    privileged: true
+    tty: true
+
+
+
+networks:
+  attacknet: 
+    driver: bridge
+    ipam:
+     config:
+      - subnet: 152.148.48.0/24
+        gateway: 152.148.48.1
+
+  internalnet:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 140.30.20.0/24
+        gateway: 140.30.20.1
+

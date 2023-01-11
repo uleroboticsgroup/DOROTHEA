@@ -1,0 +1,111 @@
+##
+##
+## Copyright (c) 2020 Adrian Campazas Vega, Ignacio Samuel Crespo Martinez, Angel Manuel Guerrero Higueras.
+##
+## This file is part of DOROTHEA 
+##
+## DOROTHEA is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Lesser General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## DOROTHEA is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
+##
+version: "2"
+services:
+  
+
+  netflow_warehouse:
+    image: lab/netflow_warehouse
+    build: ./netflow_warehouse
+    container_name: netflow_warehouse_normal
+    volumes:
+      -  ./results/netflow-flows:/home/netflow_flows
+    networks:
+      internalnet:
+        ipv4_address: 152.148.48.4
+    depends_on:
+      - router
+    privileged: true
+    tty: true
+
+  ssh:
+    image: lab/ssh
+    build: ./ssh
+    container_name: ssh_normal
+    networks:
+      internet:
+        ipv4_address: 140.30.20.9
+    depends_on:
+      - router
+      - netflow_warehouse
+    privileged: true
+    tty: true
+  
+
+
+  router:
+    build: ./router
+    image: lab/router
+    container_name: router_normal
+    volumes:
+      -  ./results/network-traffic:/home/total-traffic/
+      -  ./results/CICFlows:/home/cic-total/
+    networks:
+      internet:
+        ipv4_address: 140.30.20.2
+      internalnet:
+        ipv4_address: 152.148.48.2
+    privileged: true
+    tty: true
+
+
+  netflow_generator:
+    container_name: netflow_generator_normal
+    build:
+       context: .
+       dockerfile: ./netflow_generator/Dockerfile
+       args:
+          - SYSTEM=${SYSTEM}
+    image: lab/netflow_generator
+    volumes:
+      -  ./results/NetflowMachineResults:/home/total-traffic/
+    networks:
+      internalnet:
+        ipv4_address: 152.148.48.3
+    privileged: true
+    tty: true
+
+  generator:
+    build: ./generator
+    image: lab/generator
+    depends_on:
+      - router
+      - netflow_warehouse
+    networks:
+      - internalnet
+    privileged: true
+    tty: true
+
+
+
+networks:
+  internet: 
+    driver: bridge
+    ipam:
+     config:
+      - subnet: 140.30.20.0/24
+        gateway: 140.30.20.1
+
+  internalnet:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 152.148.48.0/24
+        gateway: 152.148.48.1

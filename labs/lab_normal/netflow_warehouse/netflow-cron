@@ -1,2 +1,0 @@
-* * * * * root /getNetflow.sh
-*/10 * * * * root /checkFlows.sh

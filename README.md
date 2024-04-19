@@ -76,5 +76,5 @@ In the root directory of this repo, you can find:
 * And after running the script, a directory named `nfcaps` should appear containing the outputs of the script.
 
 ## License
-This framework is released under the [MIT License](LICENSE). Feel free to use, modify, and distribute it in accordance with the terms of the license.
+This framework is released under the [LGPL-3.0](LICENSE). Feel free to use, modify, and distribute it in accordance with the terms of the license.
 

@@ -4,9 +4,11 @@
 
 
 ## Description
-The main goal of this framework is to generate netflows by simulating real live traffic. These netflows are generated with the intention of being used as training data for the development of models aimed at detecting malicious network activity. The framework achieves this goal by establishing a virtual network and deploying containers as nodes or clients to create an environment. It then monitors all traffic within this network environment. This monitoring is made possible by utilizing `softflowd` as a netflow exporter and `nfcap` as a netflow collector.
+The primary objective of this framework is to establish an environment that comprehensively monitors and captures all network flows. This is accomplished through the creation of a virtual network and use of Docker containers to run a NetFlow exporter `softflowd` and a collector `nfcaps` to handle the flows.
 
-Every interaction occurring within this virtual LAN is captured, parsed, and subsequently exported as IPFIX netflows. These netflows are stored as `nfcaps` and are also converted into a more user-friendly CSV format to facilitate easier analysis and interpretation.
+All interactions within this virtual LAN are captured, parsed, and subsequently exported as IPFIX NetFlows. These NetFlows are stored as nfcaps and are additionally converted into a more user-friendly CSV format, facilitating easier analysis and interpretation.
+
+Moreover, the framework includes various tools designed to simplify the execution of commands and scripts on its predefined worker nodes.
 
 ### Key Objectives
 
@@ -59,7 +61,7 @@ In order to add more user interactions to the framework, add new entries under o
 
 If the actions use a script, move them to the corresponding folder `containers/<container_type>/user_actions_scripts`. Required dependencies for the script will be added to the `Dockerfile` and to the `requirements.txt` under the same directory.
 
-In addition to the already preconfigured containers, you can run additional ones to be monitored for netflows by attaching them to the `lan_dorothea` Docker network.
+In addition to the already preconfigured containers, you can run additional ones to be monitored for netflows by attaching them to the `lan_dorothea` Docker network when **Dorothea** is running.
 
 
 ## Repository structure
@@ -71,9 +73,9 @@ In the root directory of this repo, you can find:
 
 * The files `vanilla_actions.yml` and `hostile_actions.yml`, which are lists of the actions to execute in the nodes.
 
-* The directory `containers` contains one subdirectory for each Docker image to be built, with all the resources needed to build it.
+* The directory `containers` contains one subdirectory for each Docker image to be built, with resources needed to build it.
 
-* And after running the script, a directory named `nfcaps` should appear containing the outputs of the script.
+* And after running the script, a directory named `dump` should appear containing the outputs of the script.
 
 ## License
 This framework is released under the [LGPL-3.0](LICENSE). Feel free to use, modify, and distribute it in accordance with the terms of the license.

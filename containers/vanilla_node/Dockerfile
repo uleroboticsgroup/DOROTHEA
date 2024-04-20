@@ -1,5 +1,5 @@
 # Use the appropriate base image for your application
-FROM alpine:latest
+FROM alpine:3.19
 
 # Metadata labels
 LABEL version="1.0" 
@@ -22,7 +22,7 @@ RUN apk update && apk add \
     openssh
 
 # Installing geckodriver
-RUN wget -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
+RUN wget -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz
 RUN tar -xvzf /tmp/geckodriver.tar.gz -C /usr/local/bin
 RUN chmod +x /usr/local/bin/geckodriver
 COPY user_actions_scripts /user_actions_scripts
@@ -32,6 +32,7 @@ RUN echo 'root:dorothea' | chpasswd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN rc-status
 RUN touch /run/openrc/softlevel
+RUN rc-update add sshd default
 
 # Adding user scripts to PATH
 COPY user_actions_scripts /user_actions_scripts
@@ -54,4 +55,4 @@ ENV RABBITMQ_HOST=localhost
 # Rabbit-MQ queue name
 ENV RABBITMQ_QUEUE=rabbit_queue
 
-CMD source /dorothea_venv/bin/activate && /dorothea_venv/bin/python3 node_daemon.py ${RABBITMQ_HOST} ${RABBITMQ_QUEUE}
+CMD source /dorothea_venv/bin/activate && rc-service sshd start && /dorothea_venv/bin/python3 node_daemon.py ${RABBITMQ_HOST} ${RABBITMQ_QUEUE}

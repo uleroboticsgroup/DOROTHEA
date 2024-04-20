@@ -1,9 +1,10 @@
+import logging
+
 import pika
 import yaml
 
-from Colors import *
 
-class UserActions:
+class RabbitLoader:
     """
     Class for emulating user actions.
 
@@ -23,6 +24,7 @@ class UserActions:
         load_vanilla_actions(): Parse and push to queue
         connect(): Connects to Rabbit server
     """
+
     def __init__(self, actions_list) -> None:
         """
         Stablish connection with the Rabbit-MQ server.
@@ -36,18 +38,25 @@ class UserActions:
             None
 
         """
+        logging.basicConfig.level = logging.CRITICAL
+
         self.actions_list = actions_list
 
-        with open(self.actions_list, 'r') as actions_list:
+        with open(self.actions_list, "r") as actions_list:
             yml = yaml.safe_load(actions_list)
         self.yml_actions = yml
 
-        self.queue_list = tuple(f"node-{(i + 1)}_{yml['lab']}_v{yml['version']}" for i in range(yml['nodes']))
+        self.queue_list = tuple(
+            f"node-{(i + 1)}_{yml['lab']}_v{yml['version']}"
+            for i in range(yml["nodes"])
+        )
 
-        for action in yml['actions']:
-            if action['node'] > yml['nodes']:
-                raise Exception(f"Node {action['node']} out of range in task: {action['name']}")
-    
+        for action in yml["actions"]:
+            if action["node"] > yml["nodes"]:
+                raise Exception(
+                    f"Node {action['node']} out of range in task: {action['name']}"
+                )
+
     def connect(self, host):
         """
         Connects to Rabbit-MQ server/container
@@ -59,18 +68,16 @@ class UserActions:
             None
         """
         self.rabbitmq_host = host
-        self.credentials = pika.PlainCredentials('dorothea', 'dorothea')
+        self.credentials = pika.PlainCredentials("dorothea", "dorothea")
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(
-                host= self.rabbitmq_host,
-                credentials= self.credentials
+                host=self.rabbitmq_host, credentials=self.credentials
             )
         )
         self.channel = self.connection.channel()
-        
+
         for queue in self.queue_list:
             self.channel.queue_declare(queue=queue)
-
 
     def load_vanilla_actions(self):
         """
@@ -84,22 +91,17 @@ class UserActions:
         Return:
             None
         """
-        print(GREEN + f"[ ] Populating Rabbit-MQ queues" + RESET)
-        if self.yml_actions['version'] == 1.0:
-            for action in self.yml_actions['actions']:
+        if self.yml_actions["version"] == 1.0:
+            for action in self.yml_actions["actions"]:
+                queue = self.queue_list[(action["node"] - 1)]
 
-                queue = self.queue_list[(action['node'] - 1)]
-                
                 self.channel.basic_publish(
-                    exchange= '', 
-                    routing_key= queue, 
-                    body= action.pop('payload'),
-                    properties= pika.BasicProperties(
-                        headers= action
-                    )
+                    exchange="",
+                    routing_key=queue,
+                    body=action.pop("payload"),
+                    properties=pika.BasicProperties(headers=action),
                 )
-                
-                print(GREEN + f"\t- Message [{action['name']}] added to queue [{queue}]." + RESET)
+
         else:
             raise Exception("Queue version not suported")
 

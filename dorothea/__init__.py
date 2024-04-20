@@ -1,9 +1,9 @@
 # __init__.py
 
-from UserActions import UserActions
-from Dorothea import Dorothea
+from .dorothea import Dorothea
+from .rabbitloader import RabbitLoader
 
-__all__ = ['Dorothea', 'UserActions']
+# __all__ = ['Dorothea', 'RabbitLoader']
 
 # Define version information
-__version__ = "2.0.0"
+__version__ = "2.1.0"

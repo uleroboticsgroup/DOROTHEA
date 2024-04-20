@@ -15,20 +15,20 @@ nodes: 3
 
 actions:
 
-  - name: Starting sshd in node_1
+  - name: Ping from node_1 to node_2
     node: 1
     daemonized: False
-    payload: rc-service sshd restart
+    payload: ping -c 120 dorothea-node_2
 
-  - name: Starting sshd in node_2
+  - name: Ping from node_2 to node_3
     node: 2
     daemonized: False
-    payload: rc-service sshd restart
-  
-  - name: Starting sshd in node_3
+    payload: ping -c 4 dorothea-node_3
+
+  - name: Ping from node_3 to node_1
     node: 3
     daemonized: False
-    payload: rc-service sshd restart
+    payload: for dns in google.es atlasian.com github.com; do ping -c 4 $dns; done
 
   - name: SSH conection node_2 to node_3
     node: 2
@@ -74,35 +74,5 @@ actions:
     node: 1
     daemonized: False
     payload: selenium_test.py
-
-  - name: Testing node 2
-    node: 2
-    daemonized: False
-    payload: echo "Hellow from node 2"
-
-  - name: Ping to node 1 from 2
-    node: 2
-    daemonized: True
-    payload: ping -c 45 dorothea-node_1
-
-  - name: Ping to node 3 from 2
-    node: 2
-    daemonized: True
-    payload: ping -c 45 dorothea-node_3
-
-  - name: Testing node 3
-    node: 3
-    daemonized: False
-    payload: echo "Hellow from node 3"
-
-  - name: Ping to node 1 from 3
-    node: 3
-    daemonized: True
-    payload: ping -c 45 dorothea-node_1
-
-  - name: Ping to node 2 from 3
-    node: 3
-    daemonized: True
-    payload: ping -c 45 dorothea-node_2
 
   

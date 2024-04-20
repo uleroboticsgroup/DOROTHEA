@@ -1,5 +1,5 @@
 # Use the appropriate base image for your application
-FROM alpine:latest
+FROM alpine:3.19
 
 # Metadata labels
 LABEL version="1.0" 

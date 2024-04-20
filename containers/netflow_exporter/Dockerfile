@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.19
 
 # Metadata labels
 LABEL version="1.0" 
@@ -9,7 +9,7 @@ LABEL description="Docker container to export netflows"
 ### Exporter ###
 
 # Install netflowd as netflow exporter
-RUN apk update && apk add softflowd
+RUN apk update && apk add softflowd 
 
 # Interface to monitor for traffic
 ENV INTERFACE=docker0
@@ -20,6 +20,9 @@ ENV SERVER_PORT=localhost:9555
 # Netflow version to generate the netflows with (10=IPFIX)
 ENV NF_VERSION=10
 
+# Sampling rate as fraction denominator
+ENV SAMPLING_RATE=1
+
 EXPOSE 9555
 
-CMD softflowd -i ${INTERFACE} -v ${NF_VERSION} -n ${SERVER_PORT} -d
+CMD softflowd -i ${INTERFACE} -s ${SAMPLING_RATE} -v ${NF_VERSION} -n ${SERVER_PORT} -d

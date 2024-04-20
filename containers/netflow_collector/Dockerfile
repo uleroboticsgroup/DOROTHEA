@@ -1,7 +1,7 @@
-FROM alpine:latest
+FROM alpine:3.19
 
 # Metadata labels
-LABEL version="1.0" 
+LABEL version="2.0" 
 LABEL license="MIT"
 LABEL maintainer="guillermo.leiro@estudiantes.uva.es"
 LABEL description="Docker container to collect netflows"
@@ -15,9 +15,9 @@ RUN apk update && apk add nfdump
 ENV PORT=9555
 
 # Directory to dump the netflows
-ENV NF_CAPS_STORE_DIR=/nfcaps
+ENV NF_CAPS_STORE_DIR=/nfcaps/caps
 
 EXPOSE 9555
 
 # Running nfcapd, $(extracting IP of interface recieving the netflows)
-CMD nfcapd -b $(ip -4 addr show dev eth0 | grep inet | awk '{print $2}' | cut -d'/' -f1) -p ${PORT} -l ${NF_CAPS_STORE_DIR}
+CMD nfcapd -b $(ip -4 addr show dev eth0 | grep inet | awk '{print $2}' | cut -d'/' -f1) -p ${PORT} -w ${NF_CAPS_STORE_DIR} -t 60

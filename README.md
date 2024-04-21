@@ -2,6 +2,9 @@
 
 <big>**Do**cker-based f**r**amework f**o**r ga**th**ering n**e**tflow tr**a**ffic</big>
 
+![GitHub Release](https://img.shields.io/github/v/release/uleroboticsgroup/DOROTHEA)
+![GitHub License](https://img.shields.io/github/license/uleroboticsgroup/DOROTHEA)
+
 
 ## Description
 The primary objective of this framework is to establish an environment that comprehensively monitors and captures all network flows. This is accomplished through the creation of a virtual network and use of Docker containers to run a NetFlow exporter `softflowd` and a collector `nfcaps` to handle the flows.

@@ -1,0 +1,24 @@
+[project]
+name = "dorothea"
+version = "3.0.0"
+description = "Docker-based framework for gathering netflow traffic"
+authors = [
+    {name = "Guillermo Leiro", email = "guillermo.leiro@estudiantes.uva.es"},
+]
+license = {text = "LGPLv3"}
+readme = "README.md"
+keywords = ["DOROTHEA", "dorothea", "Docker", "Netflow"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Requires :: Docker",
+]
+dependencies = [
+    "docker",
+]
+
+[project.scripts]
+dorothea = "dorothea.dorotheacore:run"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

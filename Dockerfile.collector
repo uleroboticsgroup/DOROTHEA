@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM debian:bookworm
 
 # Metadata labels
 LABEL version="1.0.0" 
@@ -9,7 +9,7 @@ LABEL description="Docker container to collect netflows"
 ### Collector ###
 
 # Install netflowd as netflow collector
-RUN apk update && apk add nfdump
+RUN apt update && apt install nfdump
 
 # Port for incoming netflows
 ENV PORT=9555

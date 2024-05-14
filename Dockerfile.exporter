@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM debian:bookworm
 
 # Metadata labels
 LABEL version="1.0.0" 
@@ -9,7 +9,7 @@ LABEL description="Docker container to export netflows"
 ### Exporter ###
 
 # Install netflowd as netflow exporter
-RUN apk update && apk add softflowd 
+RUN apt update && apt install softflowd 
 
 # Interface to monitor for traffic
 ENV INTERFACE=docker0

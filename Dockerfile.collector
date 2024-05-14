@@ -1,8 +1,8 @@
 FROM alpine:3.19
 
 # Metadata labels
-LABEL version="2.0" 
-LABEL license="MIT"
+LABEL version="1.0.0" 
+LABEL license="LGPL-3.0"
 LABEL maintainer="guillermo.leiro@estudiantes.uva.es"
 LABEL description="Docker container to collect netflows"
 

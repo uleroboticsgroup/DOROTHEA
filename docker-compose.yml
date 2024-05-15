@@ -1,5 +1,21 @@
-version: "3.9"
+name: dorothea
+
 services:
-  exporter:
-    image: "ubuntu:latest"
+  pmacct-probe:
+    build:
+      context: .
+      dockerfile: Dockerfile
     network_mode: "host"
+    volumes:
+      - .:/dorothea
+
+  ginea-pig:
+    image: ubuntu:noble
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        apt-get update
+        apt-get install -y nmap
+        nping scanme.nmap.org
+    network_mode: "bridge"

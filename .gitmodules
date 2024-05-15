@@ -1,0 +1,4 @@
+[submodule "pmacct"]
+	path = pmacct
+	url = https://github.com/pmacct/pmacct.git
+	branch = master

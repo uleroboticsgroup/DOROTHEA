@@ -9,7 +9,8 @@ services:
     volumes:
       - .:/dorothea
 
-  ginea-pig:
+  # YOUR ACTIONS: Remove the example service below and add your own
+  guinea-pig:
     image: ubuntu:noble
     command: 
       - /bin/bash

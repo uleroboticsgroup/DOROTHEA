@@ -30,8 +30,14 @@ RUN ./autogen.sh && \
 # Stage 2: Final Image
 FROM ubuntu:noble
 
+# Default value for pmacct settings
+ENV PMACCT_CONFIG=/dorothea/dorothea-pmacctd.conf
+
 # Copy the built files from the build stage to the final stage
 COPY --from=build /usr/local/ /usr/local
+
+# Copy pmacct default config
+COPY ./dorothea-pmacctd.conf /dorothea/dorothea-pmacctd.conf
 
 # Install libpcap0.8 package required by pmacct
 RUN apt-get update && \
@@ -41,4 +47,4 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the default command to run pmacctd with the specified configuration file
-CMD pmacctd -f /dorothea/dorothea-pmacctd.conf
+CMD pmacctd -f ${PMACCT_CONFIG}

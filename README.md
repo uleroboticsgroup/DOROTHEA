@@ -1,7 +1,8 @@
 # DOROTHEA
 
-<big>**Do**cker-based f**r**amework f**o**r ga**th**ering n**e**tflow tr**a**ffic</big>
+[![Docker Image CI](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/docker-image.yml/badge.svg)](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/docker-image.yml)
 
+<big>**Do**cker-based f**r**amework f**o**r ga**th**ering n**e**tflow tr**a**ffic</big>
 
 ## Description
 The primary objective of this framework is to establish an environment that comprehensively monitors and captures all network flows on a `Docker` virtual network. All interactions within this virtual network are captured, parsed into flows, and subsequently exported to a CSV file.

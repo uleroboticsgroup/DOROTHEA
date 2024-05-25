@@ -4,7 +4,7 @@ services:
   pmacct-probe:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dorothea
     network_mode: "host"
     volumes:
       - .:/dorothea

@@ -1,0 +1,32 @@
+name: dorothea
+
+services:
+  pmacct-probe:
+    build:
+      context: .
+      dockerfile: Dockerfile.dorothea
+    network_mode: "host"
+    volumes:
+      - .:/dorothea
+
+  # YOUR ACTIONS: Remove the example service below and add your own
+  guinea-pig:
+    image: vulnerables/web-dvwa:latest
+    network_mode: "bridge"
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD-SHELL", "ls /var/log/apache2/other_vhosts_access.log || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  attacker:
+    build:
+        context: .
+        dockerfile: Dockerfile.kali-port-scan
+    network_mode: "bridge"
+    depends_on:
+      guinea-pig:
+        condition: service_healthy
+      

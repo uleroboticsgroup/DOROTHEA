@@ -1,0 +1,12 @@
+# Attacker 
+FROM kalilinux/kali-last-release:latest
+
+ENV DEFAULT_NETWORK=172.17.0.0/16
+
+# Install nmap package
+RUN apt-get update && \
+    apt-get install -y \
+    nmap
+
+# Run the nmap scan against vulnerable nodes
+CMD nmap -p0- -v -A -T4 ${DEFAULT_NETWORK}

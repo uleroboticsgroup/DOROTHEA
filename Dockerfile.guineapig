@@ -1,0 +1,21 @@
+# Attacker 
+FROM nginx:bookworm
+
+# Install nmap package
+RUN apt-get update && \
+    apt-get install -y \
+    openssh-server \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create SSH directory
+RUN mkdir /var/run/sshd
+
+# Create a user for SSH access
+RUN useradd -m -s /bin/bash dorothea && echo 'dorothea:somepass' | chpasswd && adduser dorothea sudo
+
+# Expose the SSH port
+EXPOSE 22
+
+# Start the SSH service
+CMD ["/usr/sbin/sshd", "-D"]

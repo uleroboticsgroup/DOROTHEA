@@ -21,7 +21,7 @@ jobs:
       run: docker build . --file Dockerfile.dorothea --tag dorothea:$(date +%s)
     
     - name: Build Docker image with Dockerfile.guineapig
-      run: docker build . --file Dockerfile.second --tag guineapig:$(date +%s)
+      run: docker build . --file Dockerfile.guineapig --tag guineapig:$(date +%s)
 
     - name: Build Docker image with Dockerfile.third
       run: docker build . --file Dockerfile.attacker --tag attacker:$(date +%s)

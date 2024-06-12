@@ -37,9 +37,6 @@ ENV PMACCT_CONFIG=/dorothea/dorothea-pmacctd.conf
 COPY --from=build /usr/local/ /usr/local
 
 # Copy pmacct default config
-COPY ./entrypoint.sh /entrypoint.sh
-
-# Copy pmacct default config
 COPY ./dorothea-pmacctd.conf /dorothea/dorothea-pmacctd.conf
 
 # Install libpcap0.8 package required by pmacct

@@ -16,5 +16,12 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile.dorothea --tag my-image-name:$(date +%s)
+
+    - name: Build Docker image with Dockerfile.dorothea
+      run: docker build . --file Dockerfile.dorothea --tag dorothea:$(date +%s)
+    
+    - name: Build Docker image with Dockerfile.guineapig
+      run: docker build . --file Dockerfile.second --tag guineapig:$(date +%s)
+
+    - name: Build Docker image with Dockerfile.third
+      run: docker build . --file Dockerfile.attacker --tag attacker:$(date +%s)

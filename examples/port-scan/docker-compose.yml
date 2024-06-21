@@ -1,0 +1,43 @@
+name: dorothea
+
+services:
+  pmacct-probe:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.dorothea
+    network_mode: "host"
+    volumes:
+      - .:/dorothea
+
+  # YOUR ACTIONS: Remove the example service below and add your own
+  guinea-pig:
+    build:
+      context: ..
+      dockerfile: Dockerfile.guineapig
+    network_mode: "bridge"
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD-SHELL", "service ssh status || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'     # Limit to 1.0 CPUs
+          memory: 1024M    # Limit to 1024 MB of RAM
+        reservations:
+          cpus: '0.25'    # Reserve 0.5 CPUs
+          memory: 512M    # Reserve 512 MB of RAM
+
+  attacker:
+    build:
+        context: .
+        dockerfile: Dockerfile.attacker
+    network_mode: "bridge"
+    depends_on:
+      guinea-pig:
+        condition: service_healthy
+    command: ["nmap", "-p0-", "-v", "-A", "-T4", "172.17.0.0/16"]
+      

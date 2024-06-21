@@ -1,0 +1,12 @@
+# Attacker 
+FROM kalilinux/kali-last-release:latest
+
+# Install nmap package
+RUN apt-get update && \
+    apt-get install -y \
+    nmap \
+    hydra
+    # slowloris
+
+# Run the nmap scan against vulnerable nodes
+#CMD nmap -p0- -v -A -T4 ${DEFAULT_NETWORK}

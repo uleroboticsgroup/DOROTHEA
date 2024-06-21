@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  dorothea-container-build:
 
     runs-on: ubuntu-latest
 
@@ -20,8 +20,21 @@ jobs:
     - name: Build Docker image with Dockerfile.dorothea
       run: docker build . --file Dockerfile.dorothea --tag dorothea:$(date +%s)
     
-    - name: Build Docker image with Dockerfile.guineapig
-      run: docker build . --file Dockerfile.guineapig --tag guineapig:$(date +%s)
 
-    - name: Build Docker image with Dockerfile.third
-      run: docker build . --file Dockerfile.attacker --tag attacker:$(date +%s)
+  example-container-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Build Docker image with Dockerfile.guineapig
+      run: docker build ./examples --file Dockerfile.guineapig --tag guineapig:$(date +%s)
+
+    - name: Build Docker image with Dockerfile.attacker
+      run: docker build ./examples/port-scan --file Dockerfile.attacker --tag attacker:$(date +%s)
+
+    - name: Build Docker image with Dockerfile.attacker
+      run: docker build ./examples/ssh-brute-force --file Dockerfile.attacker --tag attacker:$(date +%s)

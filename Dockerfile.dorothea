@@ -37,15 +37,16 @@ ENV PMACCT_CONFIG=/dorothea/dorothea-pmacctd.conf
 COPY --from=build /usr/local/ /usr/local
 
 # Copy pmacct default config
-COPY ./dorothea-pmacctd.conf /dorothea/dorothea-pmacctd.conf
+# The configuration file is present after mounting the volume on the compose examples
+#COPY ./dorothea-pmacctd.conf /dorothea/dorothea-pmacctd.conf
 
 # Install libpcap0.8 package required by pmacct
 RUN apt-get update && \
     apt-get install -y \
-    libpcap0.8 \
-    gawk && \
+    libpcap0.8 && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
+
 # Set the default command to run pmacctd with the specified configuration file
-CMD pmacctd -f ${PMACCT_CONFIG}
+ENTRYPOINT pmacctd -f ${PMACCT_CONFIG}

@@ -1,8 +1,7 @@
 # Attacker 
-FROM ubuntu:latest
-#kalilinux/kali-last-release:latest
+FROM kalilinux/kali-last-release:latest
 
 # Install nmap package
 RUN apt-get update && \
     apt-get install -y \
-    nmap
+    slowloris

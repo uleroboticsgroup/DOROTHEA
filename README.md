@@ -25,8 +25,8 @@ If you are searching for one of the old implementations, we have tagged them as 
 ## Requirements
 
 This tool requires to have installed in your system:
- - Docker
- - Docker-Compose
+ - [Docker](https://www.docker.com/)
+ - [Docker-Compose](https://docs.docker.com/compose/)
 
 ## Usage
 

@@ -7,6 +7,7 @@ Example to so how to collect the flows during a SSH brute force attack with [DOR
 
 First create the resources specified in the compose file with out starting the container with the following command:
 ```bash
+$ cd examples/ssh-brute-force
 $ docker compose up --no-start
 ```
 This step is needed for docker compose to create the network interface that we will use to listen on.
@@ -25,12 +26,12 @@ If you are not sure which one is the right network interface, you can make user 
 $ docker network ls
 ```
 
-## Start lab
+### Start lab
 ```bash
 $ docker compose up
 ```
 
-## Stop lab
+### Stop lab
 ```bash
 $ docker compose down
 ```

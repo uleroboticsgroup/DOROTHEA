@@ -5,9 +5,5 @@ FROM kalilinux/kali-last-release:latest
 RUN apt-get update && \
     apt-get install -y \
     hydra
-    # slowloris
 
 RUN wget -O rockyou.txt https://raw.githubusercontent.com/josuamarcelc/common-password-list/main/rockyou.txt/rockyou_1.txt
-
-# Run the nmap scan against vulnerable nodes
-#CMD nmap -p0- -v -A -T4 ${DEFAULT_NETWORK}

@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.dorothea
     network_mode: "host"
     volumes:
-      - .:/dorothea
+      - ../..:/dorothea
 
   # YOUR ACTIONS: Remove the example service below and add your own
   guinea-pig:

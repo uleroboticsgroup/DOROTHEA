@@ -18,10 +18,10 @@ jobs:
           submodules: recursive
 
     - name: Checking examples/port-scan/docker-compose.yml
-    run: docker compose --file ./examples/port-scan/docker-compose.yml config -q
+      run: docker compose --file ./examples/port-scan/docker-compose.yml config -q
 
     - name: Checking examples/ssh-brute-force/docker-compose.yml
-    run: docker compose --file ./examples/ssh-brute-force/docker-compose.yml config -q
+      run: docker compose --file ./examples/ssh-brute-force/docker-compose.yml config -q
 
    
   examples-container-build:
@@ -34,10 +34,10 @@ jobs:
           submodules: recursive
 
     - name: Build Docker image with Dockerfile.guineapig
-    run: docker build ./examples --file ./examples/Dockerfile.guineapig --tag guineapig:$(date +%s)
+      run: docker build ./examples --file ./examples/Dockerfile.guineapig --tag guineapig:$(date +%s)
 
     - name: Build Docker image with port-scan/Dockerfile.attacker
-    run: docker build ./examples/port-scan --file ./examples/port-scan/Dockerfile.attacker --tag attacker:$(date +%s)
+      run: docker build ./examples/port-scan --file ./examples/port-scan/Dockerfile.attacker --tag attacker:$(date +%s)
 
     - name: Build Docker image with ssh-brute-force/Dockerfile.attacker
-    run: docker build ./examples/ssh-brute-force --file ./examples/ssh-brute-force/Dockerfile.attacker --tag attacker:$(date +%s)
+      run: docker build ./examples/ssh-brute-force --file ./examples/ssh-brute-force/Dockerfile.attacker --tag attacker:$(date +%s)

@@ -46,6 +46,14 @@ And finally simply run Docker-Compose:
 $ docker compose .
 ```
 
+## Examples
+
+The examples directory includes various scenarios to emulate and capture network traffic of popular tools and interactions:
+
+* [Port scan with nmap](examples/port-scan/README.md)
+* [SSH brute force with HYDRA](examples/ssh-brute-force/README.md)
+
+
 ## License
 This framework is released under the [LGPL-3.0](LICENSE). Feel free to use, modify, and distribute it in accordance with the terms of the license.
 

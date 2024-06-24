@@ -1,6 +1,7 @@
 # DOROTHEA
 
-[![Docker Image CI](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/docker-image.yml/badge.svg)](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/docker-image.yml)
+[![Dorothea CI](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/dorothea.yml/badge.svg)](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/dorothea.yml)
+[![Examples CI](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/examples.yml/badge.svg)](https://github.com/uleroboticsgroup/DOROTHEA/actions/workflows/examples.yml)
 
 <big>**Do**cker-based f**r**amework f**o**r ga**th**ering n**e**tflow tr**a**ffic</big>
 
